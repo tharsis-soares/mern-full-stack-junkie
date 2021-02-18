@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'por favor digite um email'],
         unique: true,
         match: [
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>"()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])| (([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             "Por favor um email valido"
         ]
     },
@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
     resetPasswordExpire: Date
 })
 
-UserSchema.pre('save', async function(){
+UserSchema.pre('save', async function(next){
     if(!this.isModified('password')) {
         next()
     }
