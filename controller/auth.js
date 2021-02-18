@@ -46,8 +46,10 @@ exports.login = async (req, res, next) => {
         })
     } catch (error) {
 
-    }   res.status(500).json({success: false, error.message})
+    }   res.status(500).json({success: false, error: 'message'})
 }
+
+
 
 exports.forgotpassword = (req, res, next) => {
     res.send('Rota esqueceu da senha')
