@@ -44,8 +44,30 @@ exports.login = async (req, res, next) => {
 
 
 
-exports.forgotpassword = (req, res, next) => {
-    res.send('Rota esqueceu da senha')
+exports.forgotpassword = async (req, res, next) => {
+    const { email } = req.body
+
+    try {
+        const user = await User.findOne({ email })
+
+        if(!user) {
+            return next(new ErrorResponse('email nao enviado', 404))
+        }
+
+        const resetToken = user.getResetPasswordToken()
+
+        await user.save()
+        
+        const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`
+    
+        const message = `
+            <h1>Voce solicitou refazer a senha</h1>
+            <p>por favor va para este link para refazer a senha</p>
+            <a href=${resetUrl} clicktracking='off' >${resetUrl}</a>
+            `
+    } catch (error) {
+        
+    }
 }
 
 exports.resetpassword = (req, res, next) => {
